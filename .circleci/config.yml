@@ -126,6 +126,7 @@ jobs:
       CIRCLE_ARTIFACTS: /home/circleci/artifacts
       GRADLE_OPTS: -Dorg.gradle.jvmargs='-XX:MaxMetaspaceSize=256m' -Dorg.gradle.workers.max=4
       _JAVA_OPTIONS: -XX:ActiveProcessorCount=4 -Xmx1177m -XX:MaxMetaspaceSize=512m  -XX:ErrorFile=/home/circleci/artifacts/hs_err_pid%p.log -XX:HeapDumpPath=/home/circleci/artifacts
+      JAVA_HOME: /opt/java/java13
     steps:
       - checkout
       - run:
@@ -137,7 +138,7 @@ jobs:
             FILENAME="zulu13.28.11-ca-jdk13.0.1-linux_x64.tar.gz"
             wget -q "https://cdn.azul.com/zulu/bin/${FILENAME}"
             tar -xzf "${FILENAME}"
-            ln -s /opt/java/* /opt/java/java13
+            ln -s /opt/java/*/ /opt/java/java13
       - restore_cache: { key: 'gradle-wrapper-v2-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}' }
       - restore_cache: { key: 'unit-test-11-gradle-cache-v2-{{ checksum "versions.props" }}-{{ checksum "build.gradle" }}' }
       - run: ./gradlew --parallel --stacktrace --continue test
